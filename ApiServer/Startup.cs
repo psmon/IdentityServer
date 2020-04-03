@@ -19,18 +19,31 @@ namespace ApiServer
 
             services.AddControllers();
 
-            services.AddAuthentication("Bearer")
+            services.AddAuthentication("Bearer")                
                 .AddJwtBearer("Bearer", options =>
                 {
                     options.Authority = identityUrl;
-                    options.RequireHttpsMetadata = false;
-
+                    options.RequireHttpsMetadata = false;                    
                     options.Audience = "api1";
                 });
+
+            services.AddCors(options =>
+            {
+                // this defines a CORS policy called "default"
+                options.AddPolicy("default", policy =>
+                {
+                    policy.WithOrigins("http://localhost:5003")
+                        .AllowAnyHeader()
+                        .AllowAnyMethod();
+                });
+            });
+
         }
 
         public void Configure(IApplicationBuilder app)
         {
+            app.UseCors("default");
+
             app.UseRouting();
 
             app.UseAuthentication();

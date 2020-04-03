@@ -28,13 +28,24 @@ namespace IdentityTest
                 return;
             }
 
-            // request token
-            var tokenResponse = await client.RequestClientCredentialsTokenAsync(new ClientCredentialsTokenRequest
+            // request token by api
+            var tokenResponse_api = await client.RequestClientCredentialsTokenAsync(new ClientCredentialsTokenRequest
             {
                 Address = disco.TokenEndpoint,
-
                 ClientId = "client",
                 ClientSecret = "secret",
+                Scope = "api1"
+            });
+
+            // request token by user
+            var tokenResponse = await client.RequestPasswordTokenAsync(new PasswordTokenRequest
+            {
+                Address = disco.TokenEndpoint,
+                ClientId = "ro.client",
+                ClientSecret = "secret",
+
+                UserName = "alice",
+                Password = "password",
                 Scope = "api1"
             });
 
@@ -60,6 +71,8 @@ namespace IdentityTest
                 var content = await response.Content.ReadAsStringAsync();
                 Console.WriteLine(JArray.Parse(content));
             }
+
+            Assert.True(response.IsSuccessStatusCode);
 
         }
     }

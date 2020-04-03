@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using IdentityServer4;
 using IdentityServer4.Models;
 
 namespace IdentityServer.Config
@@ -11,7 +12,8 @@ namespace IdentityServer.Config
         public static IEnumerable<IdentityResource> Ids =>
         new IdentityResource[]
         {
-            new IdentityResources.OpenId()
+            new IdentityResources.OpenId(),
+            new IdentityResources.Profile(),
         };
 
         public static IEnumerable<ApiResource> Apis =>
@@ -38,7 +40,20 @@ namespace IdentityServer.Config
 
                 // scopes that client has access to
                 AllowedScopes = { "api1" }
+            },            
+            // resource owner password grant client
+            new Client
+            {
+                ClientId = "ro.client",
+                AllowedGrantTypes = GrantTypes.ResourceOwnerPassword,
+
+                ClientSecrets =
+                {
+                    new Secret("secret".Sha256())
+                },
+                AllowedScopes = { "api1" }
             }
+
         };
 
     }

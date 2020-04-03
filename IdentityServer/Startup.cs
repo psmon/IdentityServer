@@ -1,5 +1,7 @@
 using System;
+using System.Collections.Generic;
 using IdentityServer.Config;
+using IdentityServer4.Test;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
@@ -16,6 +18,25 @@ namespace IdentityServer
             Environment = environment;
         }
 
+        public static List<TestUser> GetUsers()
+        {
+            return new List<TestUser>
+            {
+                new TestUser
+                {
+                    SubjectId = "1",
+                    Username = "alice",
+                    Password = "password"
+                },
+                new TestUser
+                {
+                    SubjectId = "2",
+                    Username = "bob",
+                    Password = "password"
+                }
+            };
+        }
+
         public void ConfigureServices(IServiceCollection services)
         {
             // uncomment, if you want to add an MVC-based UI
@@ -26,8 +47,9 @@ namespace IdentityServer
             var builder = services.AddIdentityServer()
                 .AddInMemoryIdentityResources(ServerConfig.Ids)
                 .AddInMemoryApiResources(ServerConfig.Apis)
-                .AddInMemoryClients(ServerConfig.Clients);
-                
+                .AddInMemoryClients(ServerConfig.Clients)
+                .AddTestUsers(GetUsers());
+
 
             // not recommended for production - you need to store your key material somewhere secure
             builder.AddDeveloperSigningCredential();
