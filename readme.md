@@ -2,6 +2,8 @@
 
 https://minwan1.github.io/2018/02/24/2018-02-24-OAuth/
 
+https://www.scottbrady91.com/OAuth/Why-the-Resource-Owner-Password-Credentials-Grant-Type-is-not-Authentication-nor-Suitable-for-Modern-Applications
+
 
 # Resource Server와 Authorization Server서버의 분리
 
