@@ -1,86 +1,26 @@
 version: '3.4'
 
 services:
-  akkadb:
-    image: mysql:5.7
-    command: --default-authentication-plugin=mysql_native_password    
+  identityserver:
+    image: ${DOCKER_REGISTRY-}identityserver
+    build:
+      context: .
+      dockerfile: IdentityServer/Dockerfile
     ports:
-      - 33062:3306
-    volumes:
-      - ./AkkaNetCoreTest/Infra/akkadb/init/firstsql.mysql:/docker-entrypoint-initdb.d/init.sql:ro
+     - 8080:80    
     environment:
-      MYSQL_ROOT_PASSWORD: root
-  datadog:
-    image: datadog/agent:7
+      ASPNETCORE_ENVIRONMENT: Development
+      
+  apiserver:
+    image: ${DOCKER_REGISTRY-}apiserver
+    build:
+      context: .
+      dockerfile: ApiServer/Dockerfile
+    depends_on:
+     - identityserver
     ports:
-      - 8125:8125/udp
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock:ro
-      - /proc/:/host/proc/:ro
-      - /sys/fs/cgroup/:/host/sys/fs/cgroup:ro
+     - 8081:80    
     environment:
-      DD_API_KEY: your_apikey
-      DD_DOGSTATSD_NON_LOCAL_TRAFFIC: "true"
-
-  lighthouse:
-    image: ${DOCKER_REGISTRY-}lighthouse
-    build:
-      context: .
-      dockerfile: LightHouse/Dockerfile
-    environment:
-      CLUSTER_IP: lighthouse
-      CLUSTER_PORT: 4053
-      CLUSTER_SEEDS: akka.tcp://actor-cluster@lighthouse:4053
-
-  akkanetcore:
-    image: ${DOCKER_REGISTRY-}akkanetcore
-    build:
-      context: .
-      dockerfile: AkkaNetCore/Dockerfile
-    depends_on:
-     - lighthouse
-    ports:
-     - 8080:5000    
-    environment:
-      ASPNETCORE_ENVIRONMENT: Docker
-      MonitorTool: datadog
-      MonitorToolCon: datadog:8125
-      port: 5000
-      akkaport: 7100
-      akkaip: akkanetcore
-      roles: "akkanet"
-      akkaseed: "akka.tcp://actor-cluster@lighthouse:4053"
-
-  akkanetcore2:
-    image: ${DOCKER_REGISTRY-}akkanetcore
-    build:
-      context: .
-      dockerfile: AkkaNetCore/Dockerfile
-    depends_on:
-     - lighthouse        
-    environment:
-      ASPNETCORE_ENVIRONMENT: Docker
-      MonitorTool: datadog
-      MonitorToolCon: datadog
-      port: 5000
-      akkaport: 7000
-      akkaip: akkanetcore2
-      roles: "akkanet,apiwork"
-      akkaseed: "akka.tcp://actor-cluster@lighthouse:4053"
-
-  akkanetcore3:
-    image: ${DOCKER_REGISTRY-}akkanetcore
-    build:
-      context: .
-      dockerfile: AkkaNetCore/Dockerfile
-    depends_on:
-     - lighthouse    
-    environment:
-      ASPNETCORE_ENVIRONMENT: Docker
-      MonitorTool: datadog
-      MonitorToolCon: datadog
-      port: 5000
-      akkaport: 7000
-      akkaip: akkanetcore3
-      roles: "apiwork"
-      akkaseed: "akka.tcp://actor-cluster@lighthouse:4053"
+      ASPNETCORE_ENVIRONMENT: Development
+      IdentityUrl: http://identityserver
+      

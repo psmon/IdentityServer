@@ -8,12 +8,14 @@ namespace ApiServer
     {
         public void ConfigureServices(IServiceCollection services)
         {
-
             var identityUrl = Environment.GetEnvironmentVariable("IdentityUrl");
             if (string.IsNullOrEmpty(identityUrl))
             {
                 identityUrl = "http://localhost:5000";
             }
+
+            Console.WriteLine("================ API SERVER Start ================");
+            Console.WriteLine($"identityUrl:{identityUrl}");
 
             services.AddControllers();
 

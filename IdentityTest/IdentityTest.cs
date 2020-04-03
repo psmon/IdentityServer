@@ -10,6 +10,9 @@ namespace IdentityTest
 {
     public class IdentityTest : TestKitBase
     {
+        private string SERVERURL_IDENTITY = "http://localhost:5000";
+        private string SERVERURL_API = "http://localhost:5001/identity";
+
         public IdentityTest(ITestOutputHelper output) : base(output)
         {            
         }
@@ -18,7 +21,7 @@ namespace IdentityTest
         public async Task AuthTest()
         {
             var client = new HttpClient();
-            var disco = await client.GetDiscoveryDocumentAsync("http://localhost:5000");
+            var disco = await client.GetDiscoveryDocumentAsync(SERVERURL_IDENTITY);
             if (disco.IsError)
             {
                 Console.WriteLine(disco.Error);
@@ -47,7 +50,7 @@ namespace IdentityTest
             var client2 = new HttpClient();
             client2.SetBearerToken(tokenResponse.AccessToken);
 
-            var response = await client2.GetAsync("http://localhost:5001/identity");
+            var response = await client2.GetAsync(SERVERURL_API);
             if (!response.IsSuccessStatusCode)
             {
                 Console.WriteLine(response.StatusCode);
