@@ -25,7 +25,7 @@ namespace IdentityTest
             if (disco.IsError)
             {
                 Console.WriteLine(disco.Error);
-                return;
+                throw new Exception("AuthFailed:");
             }
 
             // request token by api
@@ -52,7 +52,7 @@ namespace IdentityTest
             if (tokenResponse.IsError)
             {
                 Console.WriteLine(tokenResponse.Error);
-                return;
+                throw new Exception("AuthFailed:");
             }
 
             Console.WriteLine(tokenResponse.Json);
@@ -70,6 +70,21 @@ namespace IdentityTest
             {
                 var content = await response.Content.ReadAsStringAsync();
                 Console.WriteLine(JArray.Parse(content));
+            }
+
+            for(int i = 0; i < 10; i++)
+            {
+                //토큰 재사용
+                var response2 = await client2.GetAsync(SERVERURL_API);
+                if (!response2.IsSuccessStatusCode)
+                {
+                    Console.WriteLine(response.StatusCode);
+                }
+                else
+                {
+                    var content = await response2.Content.ReadAsStringAsync();
+                    Console.WriteLine(JArray.Parse(content));
+                }
             }
 
             Assert.True(response.IsSuccessStatusCode);

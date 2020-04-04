@@ -15,6 +15,7 @@ namespace ApiServer.Controllers
         [HttpGet]
         public IActionResult Get()
         {
+            Console.WriteLine($"### Request Identy");
             return new JsonResult(from c in User.Claims select new { c.Type, c.Value });
         }
     }
