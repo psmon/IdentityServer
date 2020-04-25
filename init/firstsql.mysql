@@ -1,0 +1,40 @@
+/*
+ * Action: 인증서버를 위한 DataBase 생성
+ * Purpose: 
+ * 참고 :
+ */
+
+CREATE DATABASE user_account default character set utf8 collate utf8_general_ci; 
+
+USE user_account; 
+SET NAMES 'utf8';
+
+
+ /*
+ * Action: tbl_user_account 사용자정보 테이블생성
+ * Purpose: 
+ */
+CREATE TABLE tbl_user_account (
+  no int(11) NOT NULL AUTO_INCREMENT COMMENT '자동증가번호',  
+  id varchar(45) NOT NULL COMMENT 'id',
+  pw varchar(45) NOT NULL COMMENT 'pw',
+  name varchar(45) NOT NULL COMMENT '사용자이름',
+  create_date DATETIME COMMENT '생성시간',
+  PRIMARY KEY (no,id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='사용자정보';
+
+
+LOAD DATA LOCAL INFILE '/data/tbl_account.csv' INTO TABLE tbl_user_account 
+FIELDS TERMINATED BY ',' 
+ENCLOSED BY '"'
+LINES TERMINATED BY '\r\n'
+IGNORE 1 ROWS
+(
+id,pw,name,
+@create_date
+)
+SET 
+ create_date = STR_TO_DATE(@create_date, '%Y-%m-%d %H:%i:%s');
+
+
+GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' IDENTIFIED BY 'root' WITH GRANT OPTION;

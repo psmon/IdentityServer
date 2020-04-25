@@ -11,7 +11,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IdentityTest", "IdentityTes
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{1F6BF330-B04D-4E26-8188-7962FF2BCBB5}"
 	ProjectSection(SolutionItems) = preProject
+		init\firstsql.mysql = init\firstsql.mysql
 		readme.md = readme.md
+		init\tbl_account.csv = init\tbl_account.csv
 	EndProjectSection
 EndProject
 Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{82FFBBA4-BEC0-4326-ABBA-958EA97F3ACB}"

@@ -8,6 +8,21 @@ services:
     ports:
      - 7000:6379
 
+  db_auth:
+    image: mysql:5.7
+    command: --default-authentication-plugin=mysql_native_password
+    restart: always
+    ports:
+      - 13306:3306
+    volumes:
+      - ./init/firstsql.mysql:/docker-entrypoint-initdb.d/init.sql
+      - ./init/tbl_account.csv:/data/tbl_account.csv
+      
+    environment:
+      MYSQL_ROOT_PASSWORD: "root"
+      TZ: "Asia/Seoul"
+
+
   identityserver:
     image: ${DOCKER_REGISTRY-}identityserver
     build:

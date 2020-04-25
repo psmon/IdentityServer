@@ -74,7 +74,7 @@ namespace IdentityTest
 
             for(int i = 0; i < 10; i++)
             {
-                //ÅäÅ« Àç»ç¿ë
+                //í† í° ìž¬ì‚¬ìš©
                 var response2 = await client2.GetAsync(SERVERURL_API);
                 if (!response2.IsSuccessStatusCode)
                 {
