@@ -22,8 +22,9 @@
       "launchBrowser": true,
       "launchUrl": "identity",
       "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development",
-        "port": "5001"
+        "identityUrl": "http://localhost:5000",
+        "port": "5001",
+        "ASPNETCORE_ENVIRONMENT": "Development"
       },
       "applicationUrl": "http://localhost:5001"
     },

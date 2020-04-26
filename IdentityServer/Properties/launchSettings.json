@@ -23,10 +23,11 @@
       "launchUrl": ".well-known/openid-configuration",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development",
-        "port": "5001"
+        "port": "5000",
+        "RedisUrl": "localhost:7000,defaultDatabase=1,abortConnect=false"
 
       },
-      "applicationUrl": "http://localhost:5001"
+      "applicationUrl": "http://localhost:5000"
     },
     "Docker": {
       "commandName": "Docker",

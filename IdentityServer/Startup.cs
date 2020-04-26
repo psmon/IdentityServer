@@ -13,17 +13,12 @@ namespace IdentityServer
 {
     public class Startup
     {
-        public IWebHostEnvironment Environment { get; }
-
-        public Startup(IWebHostEnvironment environment)
-        {
-            Environment = environment;
-        }
-
         public void ConfigureServices(IServiceCollection services)
         {
             // uncomment, if you want to add an MVC-based UI
             //services.AddControllersWithViews();
+
+            var RedisUrl = Environment.GetEnvironmentVariable("RedisUrl");
 
             services.AddControllers();
             
@@ -41,7 +36,7 @@ namespace IdentityServer
             services.AddSingleton<UserRedisRepository>();
             services.AddDistributedRedisCache(option =>
             {
-                option.Configuration = "localhost:7000,defaultDatabase=1,abortConnect=false";
+                option.Configuration = RedisUrl;
                 option.InstanceName = "identyuser:";
             });
 
@@ -49,10 +44,8 @@ namespace IdentityServer
 
         public void Configure(IApplicationBuilder app)
         {
-            if (Environment.IsDevelopment())
-            {
-                app.UseDeveloperExceptionPage();
-            }
+            //TODO : only dev
+            app.UseDeveloperExceptionPage();
 
             // uncomment if you want to add MVC
             //app.UseStaticFiles();

@@ -32,6 +32,7 @@ services:
      - 8080:5000
     environment:
       ASPNETCORE_ENVIRONMENT: Development
+      RedisUrl : redis_auth:6379,defaultDatabase=1,abortConnect=false
       
   apiserver:
     image: ${DOCKER_REGISTRY-}apiserver
@@ -44,5 +45,5 @@ services:
      - 8081:5000    
     environment:
       ASPNETCORE_ENVIRONMENT: Development
-      IdentityUrl: http://identityserver
+      IdentityUrl: http://identityserver:8080
       
