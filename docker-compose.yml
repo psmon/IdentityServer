@@ -29,7 +29,7 @@ services:
       context: .
       dockerfile: IdentityServer/Dockerfile
     ports:
-     - 8080:80
+     - 8080:5000
     environment:
       ASPNETCORE_ENVIRONMENT: Development
       
@@ -41,7 +41,7 @@ services:
     depends_on:
      - identityserver
     ports:
-     - 8081:80    
+     - 8081:5000    
     environment:
       ASPNETCORE_ENVIRONMENT: Development
       IdentityUrl: http://identityserver

@@ -22,9 +22,11 @@
       "launchBrowser": true,
       "launchUrl": ".well-known/openid-configuration",
       "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development"
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "port": "5001"
+
       },
-      "applicationUrl": "http://localhost:5000"
+      "applicationUrl": "http://localhost:5001"
     },
     "Docker": {
       "commandName": "Docker",

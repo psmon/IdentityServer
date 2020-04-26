@@ -26,9 +26,7 @@ namespace IdentityServer
             //services.AddControllersWithViews();
 
             services.AddControllers();
-
-            Console.WriteLine("================ Identity SERVER Start ================");
-
+            
             var builder = services.AddIdentityServer()
                 .AddInMemoryIdentityResources(ServerConfig.Ids)
                 .AddInMemoryApiResources(ServerConfig.Apis)

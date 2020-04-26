@@ -20,9 +20,10 @@
     "ApiServer": {
       "commandName": "Project",
       "launchBrowser": true,
-      "launchUrl": "weatherforecast",
+      "launchUrl": "identity",
       "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development"
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "port": "5001"
       },
       "applicationUrl": "http://localhost:5001"
     },

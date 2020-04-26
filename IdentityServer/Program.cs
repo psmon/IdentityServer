@@ -1,55 +1,77 @@
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Hosting;
-using Serilog;
-using Serilog.Events;
-using Serilog.Sinks.SystemConsole.Themes;
 using System;
+using System.Collections.Generic;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
+using NLog;
+using NLog.Web;
 
 namespace IdentityServer
 {
     public class Program
     {
-        public static int Main(string[] args)
+        public static void Main(string[] args)
         {
-            Log.Logger = new LoggerConfiguration()
-                .MinimumLevel.Debug()
-                .MinimumLevel.Override("Microsoft", LogEventLevel.Warning)
-                .MinimumLevel.Override("System", LogEventLevel.Warning)
-                .MinimumLevel.Override("Microsoft.AspNetCore.Authentication", LogEventLevel.Information)
-                .Enrich.FromLogContext()
-                // uncomment to write to Azure diagnostics stream
-                //.WriteTo.File(
-                //    @"D:\home\LogFiles\Application\identityserver.txt",
-                //    fileSizeLimitBytes: 1_000_000,
-                //    rollOnFileSizeLimit: true,
-                //    shared: true,
-                //    flushToDiskInterval: TimeSpan.FromSeconds(1))
-                .WriteTo.Console(outputTemplate: "[{Timestamp:HH:mm:ss} {Level}] {SourceContext}{NewLine}{Message:lj}{NewLine}{Exception}{NewLine}", theme: AnsiConsoleTheme.Literate)
-                .CreateLogger();
+            var nlogEnvironment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
+            if (nlogEnvironment == "Production")
+            {
+                LogManager.LoadConfiguration("NLog.config");
+            }
+            else
+            {
+                LogManager.LoadConfiguration(nlogEnvironment == "" ? "NLog.config" : $"NLog.{nlogEnvironment}.config");
+            }
 
-            try
-            {
-                Log.Information("Starting host...");
-                CreateHostBuilder(args).Build().Run();
-                return 0;
-            }
-            catch (Exception ex)
-            {
-                Log.Fatal(ex, "Host terminated unexpectedly.");
-                return 1;
-            }
-            finally
-            {
-                Log.CloseAndFlush();
-            }
+            CreateHostBuilder(args).Build().Run();
         }
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)
-                .ConfigureWebHostDefaults(webBuilder =>
-                {
-                    webBuilder.UseStartup<Startup>();
-                    webBuilder.UseSerilog();
-                });
+              .ConfigureWebHostDefaults(webBuilder =>
+              {
+                  var config = GetServerUrlsFromCommandLine(args);
+                  var hostUrl = config.GetValue<string>("server.urls");
+
+                  webBuilder.ConfigureKestrel(serverOptions =>
+                  {
+                      // Set properties and call methods on options
+                  })
+                  .UseUrls(hostUrl)
+                  .UseStartup<Startup>()
+                  .ConfigureLogging(logging =>
+                  {
+                      logging.ClearProviders();
+                  })
+                  .UseNLog();
+
+              });
+
+        public static IConfigurationRoot GetServerUrlsFromCommandLine(string[] args)
+        {
+            var config = new ConfigurationBuilder()
+                .AddCommandLine(args)
+                .Build();
+            
+            var serverPort = Environment.GetEnvironmentVariable("port") ?? "5000";
+
+            var listenIp = Environment.GetEnvironmentVariable("server.urls") ?? "http://0.0.0.0";
+
+            var serverurls = string.Format("{0}:{1}", listenIp, serverPort);
+
+            Console.WriteLine($"================ Identity SERVER Start {serverurls}");
+
+
+            var configDictionary = new Dictionary<string, string>
+            {
+                {"server.urls", serverurls},
+                {"port", serverPort}
+            };
+
+            return new ConfigurationBuilder()
+                .AddCommandLine(args)
+                .AddInMemoryCollection(configDictionary)
+                .Build();
+        }
     }
 }
