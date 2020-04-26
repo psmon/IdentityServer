@@ -54,3 +54,4 @@ Oauth 2.x의 최소 표준 규약을 따르는 로그인 Flow 구성하고
 - https://cheese10yun.github.io/spring-oauth2-jdbc/
 - https://oauth.net/2/grant-types/implicit/
 - https://velopert.com/2350 : 세션방식의 문제점
+- https://jwt.io/ : JWT 토큰 분석기
