@@ -48,6 +48,7 @@ Oauth 2.x의 최소 표준 규약을 따르는 로그인 Flow 구성하고
 이 프로젝트에 영향을 준 모든 참고 자료들
 
 - http://docs.identityserver.io/en/3.1.0/intro/big_picture.html
+- https://codebrains.io/how-to-add-jwt-authentication-to-asp-net-core-api-with-identityserver-4-part-1/ : API 인증방식(without UI)
 - https://www.scottbrady91.com/OAuth/Why-the-Resource-Owner-Password-Credentials-Grant-Type-is-not-Authentication-nor-Suitable-for-Modern-Applications
 - https://minwan1.github.io/2018/02/24/2018-02-24-OAuth/
 - https://tansfil.tistory.com/60
@@ -55,3 +56,6 @@ Oauth 2.x의 최소 표준 규약을 따르는 로그인 Flow 구성하고
 - https://oauth.net/2/grant-types/implicit/
 - https://velopert.com/2350 : 세션방식의 문제점
 - https://jwt.io/ : JWT 토큰 분석기
+- https://damienbod.com/2017/04/14/asp-net-core-identityserver4-resource-owner-password-flow-with-custom-userrepository/
+- https://vmsdurano.com/apiboilerplate-and-identityserver4-access-control-for-apis/
+

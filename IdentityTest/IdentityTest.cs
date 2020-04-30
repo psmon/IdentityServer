@@ -24,20 +24,18 @@ namespace IdentityTest
 
         [Fact]
         public async Task JwtTokenTest_Docker()
-        {
-            
-
+        {            
             var client = new HttpClient();
 
             // request token by user
             var tokenResponse = await client.RequestPasswordTokenAsync(new PasswordTokenRequest
             {
                 Address = tokenEndpoint,
-                ClientId = "ro.client",
+                ClientId = "ro.angular",
                 ClientSecret = "secret",
 
-                UserName = "alice",
-                Password = "password",
+                UserName = "test01",
+                Password = "Test!234",
                 Scope = "api1"
             });
 
@@ -78,25 +76,15 @@ namespace IdentityTest
                 Console.WriteLine(disco.Error);
                 throw new Exception("AuthFailed:");
             }
-
-            // request token by api
-            var tokenResponse_api = await client.RequestClientCredentialsTokenAsync(new ClientCredentialsTokenRequest
-            {
-                Address = disco.TokenEndpoint,
-                ClientId = "client",
-                ClientSecret = "secret",
-                Scope = "api1"
-            });
-
             // request token by user
             var tokenResponse = await client.RequestPasswordTokenAsync(new PasswordTokenRequest
             {
                 Address = disco.TokenEndpoint,
-                ClientId = "ro.client",
+                ClientId = "ro.angular",
                 ClientSecret = "secret",
 
-                UserName = "alice",
-                Password = "password",
+                UserName = "test01",
+                Password = "Test!234",
                 Scope = "api1"
             });
 
