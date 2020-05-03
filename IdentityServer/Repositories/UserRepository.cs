@@ -13,11 +13,20 @@ namespace IdentityServer.Repositories
     {
         private string database = "authdb";
 
+        private string DBConnectionAuth { get; set; }
+
         private readonly AppSettings _appSettings;
 
         public UserRepository(AppSettings appSettings)            
         {
             _appSettings = appSettings;
+            
+            DBConnectionAuth = Environment.GetEnvironmentVariable("DBConnectionAuth");
+
+            if (string.IsNullOrEmpty(DBConnectionAuth))
+            {
+                DBConnectionAuth = appSettings.DBConnectionAuth;
+            }
         }
 
         protected override void OnModelCreating(ModelBuilder builder)
@@ -33,7 +42,7 @@ namespace IdentityServer.Repositories
             if (!optionsBuilder.IsConfigured)
             {
                 string dbOption = "";
-                string dbConnectionString = _appSettings.DBConnectionAuth + $"database={database};" + dbOption;
+                string dbConnectionString = DBConnectionAuth + $"database={database};" + dbOption;
                 optionsBuilder.UseMySql(dbConnectionString);
             }
         }

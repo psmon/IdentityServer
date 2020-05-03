@@ -25,7 +25,7 @@ namespace ApiServer
                     options.Authority = identityUrl;
                     options.RequireHttpsMetadata = false;                    
                     options.Audience = "api1";
-                });
+                });            
 
             services.AddCors(options =>
             {

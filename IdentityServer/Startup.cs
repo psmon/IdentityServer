@@ -55,7 +55,7 @@ namespace IdentityServer
 
             //AuthConfig
 
-            var builder = services.AddIdentityServer()
+            var builder = services.AddIdentityServer(opt => opt.IssuerUri = "http://identityserver:5000")
                 .AddDeveloperSigningCredential()
                 .AddInMemoryPersistedGrants()
                 .AddInMemoryIdentityResources(AuthConfig.GetIdentityResources())
@@ -162,9 +162,9 @@ namespace IdentityServer
             {
                 using (var serviceScope = app.ApplicationServices.GetService<IServiceScopeFactory>().CreateScope())
                 {
-                    var context = serviceScope.ServiceProvider.GetRequiredService<UserRepository>();
+                    var context = serviceScope.ServiceProvider.GetRequiredService<UserRepository>();                    
                     //context.Database.EnsureDeleted();
-                    //context.Database.EnsureCreated();
+                    context.Database.EnsureCreated();
                 }
                 app.UseDeveloperExceptionPage();
             }
