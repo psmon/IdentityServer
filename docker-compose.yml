@@ -28,6 +28,9 @@ services:
     build:
       context: .
       dockerfile: IdentityServer/Dockerfile
+    depends_on:
+     - db_auth
+     - redis_auth
     ports:
      - 8080:5000
     environment:
