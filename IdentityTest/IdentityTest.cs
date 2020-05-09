@@ -22,6 +22,17 @@ namespace IdentityTest
         {            
         }
 
+        /*
+{
+  "userName": "test01",
+  "firstName": "test01",
+  "lastName": "test01",
+  "email": "test01@example.com",
+  "password": "Test!234",
+  "confirmPassword": "Test!234"
+}
+         */
+
         [Fact]
         public async Task JwtTokenTest_Docker()
         {            
@@ -81,6 +92,7 @@ namespace IdentityTest
 
         }
 
+        //http://localhost:8080/.well-known/openid-configuration
         [Fact]
         public async Task AuthTest()
         {
@@ -89,12 +101,12 @@ namespace IdentityTest
             if (disco.IsError)
             {
                 Console.WriteLine(disco.Error);
-                throw new Exception("AuthFailed:");
+                //throw new Exception("AuthFailed:");
             }
             // request token by user
             var tokenResponse = await client.RequestPasswordTokenAsync(new PasswordTokenRequest
             {
-                Address = disco.TokenEndpoint,
+                Address = tokenEndpoint,
                 ClientId = "ro.angular",
                 ClientSecret = "secret",
 

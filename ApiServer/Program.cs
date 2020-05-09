@@ -37,7 +37,7 @@ namespace ApiServer
                   {
                       // Set properties and call methods on options
                   })
-                  .UseUrls(hostUrl)
+                  .UseUrls(hostUrl)                  
                   .UseStartup<Startup>()
                   .ConfigureLogging(logging =>
                   {
@@ -53,7 +53,7 @@ namespace ApiServer
                 .AddCommandLine(args)
                 .Build();
             
-            var serverPort = Environment.GetEnvironmentVariable("port") ?? "5000";
+            var serverPort = Environment.GetEnvironmentVariable("Port") ?? "5000";
 
             var listenIp = Environment.GetEnvironmentVariable("server.urls") ?? "http://0.0.0.0";
 
@@ -63,8 +63,7 @@ namespace ApiServer
 
             var configDictionary = new Dictionary<string, string>
             {
-                {"server.urls", serverurls},
-                {"port", serverPort}
+                {"server.urls", serverurls}
             };
 
             return new ConfigurationBuilder()

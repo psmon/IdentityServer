@@ -44,7 +44,8 @@ namespace IdentityServer
             services.AddSingleton(Configuration.GetSection("AppSettings").Get<AppSettings>());// * AppSettings
 
 
-            var RedisUrl = Environment.GetEnvironmentVariable("RedisUrl");
+            var RedisUrl = Environment.GetEnvironmentVariable("RedisUrl") ?? "localhost:7000,defaultDatabase=1,abortConnect=false";
+            var IssuerUri = Environment.GetEnvironmentVariable("IssuerUri") ?? "http://localhost:5000";
 
             services.AddControllers();
 
@@ -55,7 +56,7 @@ namespace IdentityServer
 
             //AuthConfig
 
-            var builder = services.AddIdentityServer(opt => opt.IssuerUri = "http://identityserver:5000")
+            var builder = services.AddIdentityServer(opt => opt.IssuerUri = IssuerUri)
                 .AddDeveloperSigningCredential()
                 .AddInMemoryPersistedGrants()
                 .AddInMemoryIdentityResources(AuthConfig.GetIdentityResources())
@@ -69,7 +70,7 @@ namespace IdentityServer
             services.AddAuthentication("Bearer")
                 .AddJwtBearer("Bearer", options =>
                 {
-                    options.Authority = "http://localhost:5000/";
+                    options.Authority = IssuerUri;
                     options.RequireHttpsMetadata = false;
                     options.Audience = "api1";
                 });

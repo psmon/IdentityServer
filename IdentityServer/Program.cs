@@ -53,7 +53,7 @@ namespace IdentityServer
                 .AddCommandLine(args)
                 .Build();
             
-            var serverPort = Environment.GetEnvironmentVariable("port") ?? "5000";
+            var serverPort = Environment.GetEnvironmentVariable("Port") ?? "5000";
 
             var listenIp = Environment.GetEnvironmentVariable("server.urls") ?? "http://0.0.0.0";
 
@@ -64,8 +64,7 @@ namespace IdentityServer
 
             var configDictionary = new Dictionary<string, string>
             {
-                {"server.urls", serverurls},
-                {"port", serverPort}
+                {"server.urls", serverurls}
             };
 
             return new ConfigurationBuilder()

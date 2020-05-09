@@ -37,6 +37,8 @@ services:
       ASPNETCORE_ENVIRONMENT: Development
       RedisUrl: redis_auth:6379,defaultDatabase=1,abortConnect=false
       DBConnectionAuth: server=db_auth;port=3306;user=root;password=root;
+      Port: 5000
+      IssuerUri: http://identityserver:5000
       
   apiserver:
     image: ${DOCKER_REGISTRY-}apiserver
@@ -50,4 +52,4 @@ services:
     environment:
       ASPNETCORE_ENVIRONMENT: Development
       IdentityUrl: http://identityserver:5000
-      
+      Port: 5000
