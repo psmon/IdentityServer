@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Test Client</title>
+</head>
+<body>
+    Test Client
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js" /></script>
+    <script>
+    function GetToken() {
+        $.ajax({
+                type: 'POST',
+                url: 'http://identityserver:5000/connect/token',
+                crossDomain: true,
+                timeout: 2000,
+                data: {
+                    "client_id": "ro.angular",
+                    "grant_type": "client_credentials",
+                    "client_secret": "secret",
+                    "user_name": "test01",
+                    "password": "Test!234",
+                    "scopes": "api1"
+                }
+            })
+            .done(function(data) {
+                console.log("Got token: " + data.access_token);
+                //CallService(data.access_token);
+            });
+    }
+
+    function CallService(token) {
+        $.ajax({
+                type: 'GET',
+                url: 'http://apiserver:5000/identity',
+                crossDomain: true,
+                timeout: 2000,
+                beforeSend: function(xhr) { xhr.setRequestHeader('Authorization','Bearer ' + token) }
+            })
+            .done(function(data) {
+                console.log(data);
+            });
+    }
+
+    $(function () {
+        GetToken();
+    });
+    </script>
+</body>
+</html>

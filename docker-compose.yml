@@ -53,3 +53,14 @@ services:
       ASPNETCORE_ENVIRONMENT: Development
       IdentityUrl: http://identityserver:5000
       Port: 5000
+
+  testclient:
+    image: ${DOCKER_REGISTRY-}testclient
+    build:
+      context: .
+      dockerfile: TestClient/Dockerfile
+    ports:
+     - 8082:5000
+
+
+
