@@ -10,14 +10,14 @@
     function GetToken() {
         $.ajax({
                 type: 'POST',
-                url: 'http://identityserver:5000/connect/token',
+                url: 'http://localhost:8080/connect/token',
                 crossDomain: true,
                 timeout: 2000,
                 data: {
                     "client_id": "ro.angular",
-                    "grant_type": "client_credentials",
+                    "grant_type": "password",
                     "client_secret": "secret",
-                    "user_name": "test01",
+                    "username": "test01",
                     "password": "Test!234",
                     "scopes": "api1"
                 }
@@ -31,7 +31,7 @@
     function CallService(token) {
         $.ajax({
                 type: 'GET',
-                url: 'http://apiserver:5000/identity',
+                url: 'http://localhost:8081/identity',
                 crossDomain: true,
                 timeout: 2000,
                 beforeSend: function(xhr) { xhr.setRequestHeader('Authorization','Bearer ' + token) }

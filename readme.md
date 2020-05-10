@@ -61,4 +61,5 @@ Oauth 2.x의 최소 표준 규약을 따르는 로그인 Flow 구성하고
 - https://damienbod.com/2017/04/14/asp-net-core-identityserver4-resource-owner-password-flow-with-custom-userrepository/
 - https://vmsdurano.com/apiboilerplate-and-identityserver4-access-control-for-apis/
 - https://brainwipe.github.io/docker/dotnet/oauth/identityserver/2017/10/30/oauth-on-docker-part2/ : Identity Docker환경
-- 
+- https://www.samsungsds.com/global/ko/support/insights/oidc.html : oidc
+- https://yonghyunlee.gitlab.io/temp_post/password/
